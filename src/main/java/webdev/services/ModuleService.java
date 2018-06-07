@@ -1,5 +1,6 @@
 package webdev.services;
 
+import java.sql.Timestamp;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ public class ModuleService {
 		Optional<Course> data = courseRepository.findById(courseId);
 		if(data.isPresent()) {
 			Course course = data.get();
+			course.setModified(new Timestamp(System.currentTimeMillis()));
 			newModule.setCourse(course);
 			return moduleRepository.save(newModule);
 		}
@@ -55,6 +57,12 @@ public class ModuleService {
 	
 	@DeleteMapping("/api/module/{moduleId}") 
 	public void deleteModule(@PathVariable("moduleId") int id) {
+		Optional<Module> data = moduleRepository.findById(id);
+		if (data.isPresent()) {
+			Module module = data.get();
+			Course course = module.getCourse();
+			course.setModified(new Timestamp(System.currentTimeMillis()));
+		}
 		moduleRepository.deleteById(id);
 	}
 

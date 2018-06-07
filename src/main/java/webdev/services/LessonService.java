@@ -1,5 +1,6 @@
 package webdev.services;
 
+import java.sql.Timestamp;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import webdev.repositories.LessonRepository;
 import webdev.repositories.ModuleRepository;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 6000)
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class LessonService {
 	@Autowired
 	CourseRepository courseRepository;
@@ -27,6 +28,8 @@ public class LessonService {
 		Optional<Module> data = moduleRepository.findById(moudleId);
 		if (data.isPresent()) {
 			Module module = data.get();
+			Course course = module.getCourse();
+			course.setModified(new Timestamp(System.currentTimeMillis()));
 			newLesson.setModule(module);
 			return lessonRepository.save(newLesson);
 		}
@@ -35,6 +38,13 @@ public class LessonService {
 	
 	@DeleteMapping("/api/lesson/{lessonId}")
 	public void deleteLesson(@PathVariable("lessonId") int lessonId) {
+		Optional<Lesson> data = lessonRepository.findById(lessonId);
+		if (data.isPresent()) {
+			Lesson lesson = data.get();
+			Module module = lesson.getModule();
+			Course course = module.getCourse();
+			course.setModified(new Timestamp(System.currentTimeMillis()));
+		}
 		lessonRepository.deleteById(lessonId);
 	}
 	

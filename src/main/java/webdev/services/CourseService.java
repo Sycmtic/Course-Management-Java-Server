@@ -1,5 +1,6 @@
 package webdev.services;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import javax.servlet.http.HttpSession;
@@ -34,6 +35,7 @@ public class CourseService {
 	
 	@PostMapping("/api/course")
 	public Course createCourse(@RequestBody Course course) {
+		course.setCreated(new Timestamp(System.currentTimeMillis()));
 		return courseRepository.save(course);
 	}
 	
