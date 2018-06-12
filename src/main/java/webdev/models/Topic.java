@@ -1,22 +1,18 @@
 package webdev.models;
 
-import java.util.List;
-
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Lesson {
+public class Topic {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String title;
 	@ManyToOne
 	@JsonIgnore
-	private Module module;
-	@OneToMany(mappedBy="module")
-	private List<Topic> topics;
+	private Lesson lesson;
 	
 	public int getId() {
 		return id;
@@ -30,10 +26,10 @@ public class Lesson {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Module getModule() {
-		return module;
+	public Lesson getLesson() {
+		return lesson;
 	}
-	public void setModule(Module module) {
-		this.module = module;
+	public void setLesson(Lesson lesson) {
+		this.lesson = lesson;
 	}
 }
