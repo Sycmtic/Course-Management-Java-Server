@@ -58,6 +58,15 @@ public class TopicService {
 		return topicRepository.findAll();
 	}
 	
+	@GetMapping("/api/topic/{topicId}")
+	public Topic findTopicById(@PathVariable("topicId") int id) {
+		Optional<Topic> data = topicRepository.findById(id);
+		if (data.isPresent()) {
+			return data.get();
+		}
+		return null;
+	}
+	
 	@GetMapping("/api/course/{courseId}/module/{moduleId}/lesson/{lessonId}/topic")
 	public Iterable<Topic> findAllTopicsForLesson(@PathVariable("courseId") int courseId, @PathVariable("moduleId") int moduleId, @PathVariable("lessonId") int lessonId) {
 		Optional<Lesson> data = lessonRepository.findById(lessonId);
