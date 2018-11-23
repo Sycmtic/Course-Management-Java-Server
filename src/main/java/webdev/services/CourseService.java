@@ -3,14 +3,10 @@ package webdev.services;
 import java.sql.Timestamp;
 import java.util.*;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import webdev.models.Course;
-import webdev.models.Hello;
-import webdev.models.User;
 import webdev.repositories.CourseRepository;
 
 @RestController
